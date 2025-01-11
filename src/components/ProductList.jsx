@@ -24,7 +24,7 @@ const ProductList = ({
                 if(!response.ok) {
                     throw new Error("ไม่สามารถลบสินค้าชิ้นนี้ได้")
                 }
-                setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
+                setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id) || []);
             } catch (error) {
                 console.error("ข้อผิดพลาดในการลบสินค้า", error);
             }
@@ -52,7 +52,7 @@ const ProductList = ({
           <td>...</td>
           <td>...</td>
         </tr>
-      ): filterProducts.length === 0 ? (
+      ): filterProducts && filterProducts.length === 0 ? (
         <tr>
           <td>-</td>
           <td>ไม่พบสินค้าในฐานข้อมูล</td>
@@ -61,7 +61,7 @@ const ProductList = ({
           <td>-</td>
         </tr>
       ) : (
-        filterProducts.map((product, index) => {
+        filterProducts && filterProducts.map((product, index) => {
          return ( <tr key={product.id}>
             <td>{index +1}</td>
             <td>{product.name}</td>

@@ -8,7 +8,7 @@ function App() {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState("")
   const [products, setProducts] = useState([])
-  const [filterProducts, setFilterProducts] = useState(products);
+  const [filterProducts, setFilterProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -24,8 +24,8 @@ function App() {
         throw new Error("ไม่สามารถดึงข้อมูลสินค้าได้");
       }
       const data = await response.json();
-      setProducts(data.products);
-      setFilterProducts(data.products);
+      setProducts(data.products || []); 
+      setFilterProducts(data.products || []);
     } catch(error) {
       console.log("Error in fetch product", error);
     }
