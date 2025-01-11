@@ -24,64 +24,64 @@ const ProductForm = ({
 
 
     const hdlSubmit = async (e) => {
-        e.preventDefault();
-
-        if (products.some(product => product.name === name )) {
-            setError("สินค้ามีอยู่ในระบบแล้ว");
-            return; 
-        }
-
-        
-        const newProduct = {name, price: parseFloat(price), stock: parseInt(stock) };
-        const updateProduct = {name, price: parseFloat(price), stock: parseInt(stock) };
-
-        if (currentProduct) {
+      e.preventDefault();
+  
+      
+      if (!currentProduct && products.some(product => product.name === name )) {
+          setError("สินค้ามีอยู่ในระบบแล้ว");
+          return; 
+      }
+  
+      const newProduct = {name, price: parseFloat(price), stock: parseInt(stock) };
+      const updateProduct = {name, price: parseFloat(price), stock: parseInt(stock) };
+  
+      if (currentProduct) {
           try {
-            const response = await fetch(`${apiUrl}/products/${currentProduct.id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify(updateProduct),
-            })
-            if (!response.ok) {
-                throw new Error("ไม่สามารถแก้ไขสินค้าได้");
-            }
-
-            const data = await response.json();
-            setProducts(
-                products.map((product) => 
-                    product.id === currentProduct.id
-                        ? {...product, ...updateProduct}
-                        : product
-                )
-            )
+              const response = await fetch(`${apiUrl}/products/${currentProduct.id}`, {
+                  method: "PUT",
+                  headers: {
+                      "Content-Type" : "application/json"
+                  },
+                  body: JSON.stringify(updateProduct),
+              })
+              if (!response.ok) {
+                  throw new Error("ไม่สามารถแก้ไขสินค้าได้");
+              }
+  
+              const data = await response.json();
+              setProducts(
+                  products.map((product) => 
+                      product.id === currentProduct.id
+                          ? {...product, ...updateProduct}
+                          : product
+                  )
+              )
           } catch (error) {
-            console.error("ข้อผิดพลาดในการเเก้ไขสินค้า", error)
+              console.error("ข้อผิดพลาดในการเเก้ไขสินค้า", error)
           }
           setCurrentProduct(null);
-        } else {
-            try {
-                const response = await fetch(`${apiUrl}/products`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type" : "application/json",
-                    },
-                    body: JSON.stringify(newProduct),
-                })
-                if (!response.ok) {
-                    throw new Error("ไม่สามารถเพิ่มสินค้าได้");
-                  }
-                
-                const data = await response.json();
-                setProducts([...products, data.product])
-            } catch (error) {
-                console.error("ข้อผิดพลาดในการเพิ่มสินค้า", error)
-            }
-        }
-        setPopup(false);
+      } else {
+          try {
+              const response = await fetch(`${apiUrl}/products`, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type" : "application/json",
+                  },
+                  body: JSON.stringify(newProduct),
+              })
+              if (!response.ok) {
+                  throw new Error("ไม่สามารถเพิ่มสินค้าได้");
+              }
+  
+              const data = await response.json();
+              setProducts([...products, data.product])
+          } catch (error) {
+              console.error("ข้อผิดพลาดในการเพิ่มสินค้า", error)
+          }
       }
-
+      setPopup(false);
+  }
+  
 
   
     
