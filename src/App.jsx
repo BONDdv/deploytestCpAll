@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import ProductList from "./components/productList";
-import ProductForm from "./components/productForm";
+import ProductList from "./components/ProductList"
+import ProductForm from "./components/ProductForm";
 
 function App() {
 
